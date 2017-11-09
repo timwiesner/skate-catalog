@@ -1,6 +1,7 @@
 from flask import Flask
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from db_setup import Base, Category, Item
 
 app = Flask(__name__)
 
