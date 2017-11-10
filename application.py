@@ -12,6 +12,7 @@ DBSession = sessionmaker(bind = engine)
 session = DBSession()
 
 @app.route('/')
+@app.route('/catalog')
 def hello():
     return "Hello world"
 
