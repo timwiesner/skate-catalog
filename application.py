@@ -11,12 +11,24 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind = engine)
 session = DBSession()
 
-# Home page route
+# Home / Show All Categories
 @app.route('/')
 @app.route('/catalog/')
 def showCatalog():
     categories = session.query(Category).all()
     return render_template('catalog.html', categories=categories)
+
+
+# Create a new category
+@app.route('/catalog/new', methods = ['GET', 'POST'])
+def newCategory():
+    if request.method == 'POST':
+        newCategory = Category(name=request.form['name'])
+        session.add(newCategory)
+        session.commit()
+        return redirect(url_for('showCatalog'))
+    else:
+        return render_template('newCategory.html')
 
 
 
