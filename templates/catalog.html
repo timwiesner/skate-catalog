@@ -2,6 +2,17 @@
 {% block content%}
 	<h1>Skate Shop</h1>
 
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			<ul>
+				{% for message in messages %}
+					<li> <strong> {{ message }} </strong> </li>
+				{% endfor %}
+			</ul>
+		{% endif %}
+  {% endwith %}
+
+
 	<a href="{{url_for('newCategory')}}"><h3>Create a New Category</h3></a>
 
 	{% for category in categories %}

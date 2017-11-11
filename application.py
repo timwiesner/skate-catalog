@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, jsonify, url_for
+from flask import Flask, render_template, request, redirect, jsonify, url_for, flash
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from db_setup import Base, Category, Item
@@ -26,6 +26,7 @@ def newCategory():
         newCategory = Category(name=request.form['name'])
         session.add(newCategory)
         session.commit()
+        flash('New category created!')
         return redirect(url_for('showCatalog'))
     else:
         return render_template('newCategory.html')
@@ -38,6 +39,7 @@ def editCategory(category_id):
     if request.method == 'POST':
         if request.form['name']:
             editedCategory.name = request.form['name']
+            flash('Category edited!')
             return redirect(url_for('showCatalog'))
     else:
         return render_template('editCategory.html', category=editedCategory)
@@ -49,6 +51,7 @@ def deleteCategory(category_id):
     if request.method == 'POST':
         session.delete(deletedCategory)
         session.commit()
+        flash('Category deleted!')
         return redirect(url_for('showCatalog'))
     else:
         return render_template('deleteCategory.html', category=deletedCategory)
@@ -64,5 +67,6 @@ def showCategory(category_id):
 
 
 if __name__ == '__main__':
+    app.secret_key = 'super_secret_key'
     app.debug = True
     app.run(host='0.0.0.0', port=8000)
