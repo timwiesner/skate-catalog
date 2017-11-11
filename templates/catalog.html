@@ -9,6 +9,7 @@
 			<h4>{{category.name}}</h4>
 		</a>
 		<a href="{{url_for('editCategory', category_id = category.id)}}">Edit</a>
+		<a href="{{url_for('deleteCategory', category_id = category.id)}}">Delete</a>
 	{% endfor %}
 
 
