@@ -3,7 +3,7 @@ from sqlalchemy.orm import sessionmaker
 from db_setup import Base, Category, Item
 
 
-engine = create_ending('sqlite:///skatecatalog.db')
+engine = create_engine('sqlite:///skatecatalog.db')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
@@ -46,6 +46,8 @@ session.commit()
 category9 = Category(name="Stickers")
 session.add(category9)
 session.commit()
+
+print('Items Added!')
 
 # category10 = Category(name="T-Shirts")
 # session.add(category10)
