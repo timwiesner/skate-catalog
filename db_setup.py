@@ -17,8 +17,8 @@ class Category(Base):
     def serialize(self):
         """Return object data in easily serializeable format"""
         return {
-            'name': self.name,
             'id': self.id,
+            'name': self.name,
         }
 
 
@@ -31,6 +31,16 @@ class Item(Base):
     description = Column(String(250))
     category_id = Column(Integer, ForeignKey('category.id'))
     category = relationship(Category)
+
+    @property
+    def serialize(self):
+        """Return object data in easily serializeable format"""
+        return {
+            'name': self.name,
+            'id': self.id,
+            'description': self.description,
+            'category_id': self.category_id,
+        }
 
 
 
