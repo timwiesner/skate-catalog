@@ -5,7 +5,7 @@ from db_setup import Base, Category, Item
 
 app = Flask(__name__)
 
-engine = create_engine('sqlite:///itemcatalog.db')
+engine = create_engine('sqlite:///skatecatalog.db')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind = engine)
