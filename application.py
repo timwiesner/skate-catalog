@@ -61,8 +61,21 @@ def deleteCategory(category_id):
 @app.route('/catalog/<int:category_id>/')
 def showCategory(category_id):
     category = session.query(Category).filter_by(id=category_id).one()
-    # items = session.query(Item).filter_by(category_id=category_id).all()
+    items = session.query(Item).filter_by(category_id=category_id).all()
     return render_template('category.html', category=category)
+
+
+# Add item
+@app.route('/catalog/<int:category_id>/new/', methods = ['GET', 'POST'])
+def newItem(category_id):
+    if request.method == 'POST':
+        newItem = Item(name=request.form['name'])
+        session.add(newItem)
+        session.commit()
+        flash('New item created!')
+        return redirect(url_for('showCategory', category_id=category_id))
+    else:
+        return render_template('newItem.html')
 
 
 
