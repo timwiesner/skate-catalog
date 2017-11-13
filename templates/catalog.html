@@ -17,8 +17,6 @@
 		<a href="{{url_for('showCategory', category_id = category.id)}}">
 			<h3>{{category.name}}</h3>
 		</a>
-		<a href="{{url_for('editCategory', category_id = category.id)}}">Edit</a>
-		<a href="{{url_for('deleteCategory', category_id = category.id)}}">Delete</a>
 	{% endfor %}
 
 

@@ -7,6 +7,7 @@
 		<input type="submit", value = 'Delete'>
 	</form>
 
-	<a href="{{url_for('showCatalog')}}">Cancel</a>
+	<a href="{{url_for('showCategory', category_id = category.id)}}">Cancel</a>
+
 
 {% endblock %}
