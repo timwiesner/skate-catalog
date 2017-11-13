@@ -3,4 +3,14 @@
 
 	<h1>Edit Item</h1>
 
+	<form action="{{url_for('editItem', category_id = category_id, item_id = item.id)}}" method="POST">
+		<p>Name:</p>
+		<input type="text" name="name" placeholder="{{item.name}}">
+		<input type="text" name="description" placeholder="{{item.description}}">
+		<input type="submit" value="Edit">
+	</form>
+
+	<a href="{{url_for('showCatalog')}}">Cancel</a>
+
+
 {% endblock %}
