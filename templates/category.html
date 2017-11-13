@@ -2,8 +2,30 @@
 {% block content%}
 
 	<h1>{{ category.name }}</h1>
+
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			{% for message in messages %}
+				<strong> {{ message }} </strong>
+			{% endfor %}
+		{% endif %}
+  {% endwith %}
+
 	<a href="{{url_for('newItem', category_id = category.id)}}"><h3>Create New Item</h3></a>
 
+	{% for item in items %}
+		<a href="#">
+			<h3>{{item.name}}</h3>
+		</a>
+		<a href="#">Edit</a>
+		<a href="#">Delete</a>
+
+	{% endfor %}
+
+
+	<br>
+	<br>
+	<br>
 	<a href="{{url_for('showCatalog')}}">Go Back</a>
 
 
