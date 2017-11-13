@@ -11,13 +11,13 @@
 		{% endif %}
   {% endwith %}
 
-	<a href="{{url_for('newItem', category_id = category.id)}}"><h3>Create New Item</h3></a>
+	<a href="{{url_for('newItem', category_id = category.id)}}"><h4>Create New Item</h4></a>
 
 	{% for item in items %}
 		<a href="#">
 			<h3>{{item.name}}</h3>
 		</a>
-		<a href="#">Edit</a>
+		<a href="{{url_for('editItem', category_id = category.id, item_id = item.id)}}">Edit</a>
 		<a href="#">Delete</a>
 
 	{% endfor %}

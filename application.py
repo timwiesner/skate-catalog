@@ -80,6 +80,27 @@ def newItem(category_id):
         return render_template('newItem.html', category_id = category_id)
 
 
+# Edit item
+@app.route('/catalog/<int:category_id>/items/<int:item_id>/edit', methods=['GET', 'POST'])
+def editItem(category_id, item_id):
+    editedItem = session.query(Item).filter_by(id=item_id).one()
+    if request.method == 'POST':
+        if request.form['name']:
+            editedItem.name = request.form['name']
+        if request.form['description']:
+            editedItem.description = request.form['description']
+        session.add(editedItem)
+        session.commit()
+        return redirect(url_for('showCategory', category_id=category_id))
+    else:
+        return render_template('editItem.html', category_id=category_id, item_id=item_id, item=editedItem)
+
+
+
+# Delete item
+# @app.route('/catalog/<int:category_id>/items/<int:item_id>/delete')
+
+
 
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
