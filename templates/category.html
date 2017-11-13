@@ -13,17 +13,24 @@
 		{% endif %}
   {% endwith %}
 
+
+
+	{% if items != [] %}
+		{% for item in items %}
+			<a href="{{url_for('showItem', category_id = category.id, item_id = item.id)}}">
+				<h3>{{item.name}}</h3>
+			</a>
+			<br>
+		{% endfor %}
+	{% else %}
+		<br>
+		<br>
+		<p>No items to display.</p>
+		<br>
+	{% endif %}
 	<a href="{{url_for('newItem', category_id = category.id)}}"><h4>Create New Item</h4></a>
-
-	{% for item in items %}
-		<a href="{{url_for('showItem', category_id = category.id, item_id = item.id)}}">
-			<h3>{{item.name}}</h3>
-		</a>
-	{% endfor %}
-
-
 	<br>
-	<br>
+
 	<a href="{{url_for('showCatalog')}}">Go Back</a>
 
 
