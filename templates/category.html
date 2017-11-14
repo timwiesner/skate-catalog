@@ -20,7 +20,6 @@
 			<a href="{{url_for('showItem', category_id = category.id, item_id = item.id)}}">
 				<h3>{{item.name}}</h3>
 			</a>
-			<br>
 		{% endfor %}
 	{% else %}
 		<br>
@@ -28,6 +27,7 @@
 		<p>No items to display.</p>
 		<br>
 	{% endif %}
+	<br>
 	<a href="{{url_for('newItem', category_id = category.id)}}"><h4>Create New Item</h4></a>
 	<br>
 

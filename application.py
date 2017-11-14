@@ -12,7 +12,7 @@ DBSession = sessionmaker(bind = engine)
 session = DBSession()
 
 
-@app.route('/catalog/<int:category_id>/JSON')
+@app.route('/categories/<int:category_id>/JSON')
 def categoryJSON(category_id):
     category = session.query(Category).filter_by(id=category_id).one()
     items = session.query(Item).filter_by(category_id=category_id).all()
@@ -20,14 +20,14 @@ def categoryJSON(category_id):
 
 
 # Item JSON Endpoint
-@app.route('/catalog/<int:category_id>/<int:item_id>/JSON')
+@app.route('/categories/<int:category_id>/<int:item_id>/JSON')
 def itemJSON(category_id, item_id):
     item = session.query(Item).filter_by(id=item_id).one()
     return jsonify(item = item.serialize)
 
 
 # Catalog JSON Endpoint
-@app.route('/catalog/JSON')
+@app.route('/categories/JSON')
 def catalogJSON():
     categories = session.query(Category).all()
     return jsonify(categories=[c.serialize for c in categories])
@@ -35,14 +35,14 @@ def catalogJSON():
 
 # Home / Show All Categories
 @app.route('/')
-@app.route('/catalog/')
+@app.route('/categories/')
 def showCatalog():
     categories = session.query(Category).all()
-    return render_template('catalog.html', categories=categories)
+    return render_template('categories.html', categories=categories)
 
 
 # Create a new category
-@app.route('/catalog/new/', methods = ['GET', 'POST'])
+@app.route('/categories/new/', methods = ['GET', 'POST'])
 def newCategory():
     if request.method == 'POST':
         newCategory = Category(name=request.form['name'])
@@ -55,7 +55,7 @@ def newCategory():
 
 
 # Edit category
-@app.route('/catalog/<int:category_id>/edit/', methods = ['GET', 'POST'])
+@app.route('/categories/<int:category_id>/edit/', methods = ['GET', 'POST'])
 def editCategory(category_id):
     editedCategory = session.query(Category).filter_by(id=category_id).one()
     if request.method == 'POST':
@@ -68,7 +68,7 @@ def editCategory(category_id):
 
 
 # Delete category
-@app.route('/catalog/<int:category_id>/delete/', methods = ['GET', 'POST'])
+@app.route('/categories/<int:category_id>/delete/', methods = ['GET', 'POST'])
 def deleteCategory(category_id):
     deletedCategory = session.query(Category).filter_by(id=category_id).one()
     if request.method == 'POST':
@@ -81,8 +81,8 @@ def deleteCategory(category_id):
 
 
 # Show specific category route
-@app.route('/catalog/<int:category_id>/')
-@app.route('/catalog/<int:category_id>/items')
+@app.route('/categories/<int:category_id>/')
+@app.route('/categories/<int:category_id>/items')
 def showCategory(category_id):
     category = session.query(Category).filter_by(id=category_id).one()
     items = session.query(Item).filter_by(category_id=category_id).all()
@@ -90,7 +90,7 @@ def showCategory(category_id):
 
 
 # Show specific item
-@app.route('/category/<int:category_id>/<int:item_id>/')
+@app.route('/categories/<int:category_id>/items/<int:item_id>/')
 def showItem(category_id, item_id):
     category = session.query(Category).filter_by(id=category_id).one()
     item = session.query(Item).filter_by(id=item_id).one()
@@ -98,7 +98,7 @@ def showItem(category_id, item_id):
 
 
 # New item
-@app.route('/catalog/<int:category_id>/new/', methods = ['GET', 'POST'])
+@app.route('/categories/<int:category_id>/new/', methods = ['GET', 'POST'])
 def newItem(category_id):
     if request.method == 'POST':
         newItem = Item(name=request.form['name'], description=request.form['description'], category_id=category_id)
@@ -111,7 +111,7 @@ def newItem(category_id):
 
 
 # Edit item
-@app.route('/catalog/<int:category_id>/<int:item_id>/edit/', methods=['GET', 'POST'])
+@app.route('/categories/<int:category_id>/<int:item_id>/edit/', methods=['GET', 'POST'])
 def editItem(category_id, item_id):
     editedItem = session.query(Item).filter_by(id=item_id).one()
     if request.method == 'POST':
@@ -129,7 +129,7 @@ def editItem(category_id, item_id):
 
 
 # Delete item
-@app.route('/catalog/<int:category_id>/<int:item_id>/delete/', methods=['GET', 'POST'])
+@app.route('/categories/<int:category_id>/<int:item_id>/delete/', methods=['GET', 'POST'])
 def deleteItem(category_id, item_id):
     deletedItem = session.query(Item).filter_by(id=item_id).one()
     if request.method == 'POST':
