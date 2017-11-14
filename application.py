@@ -12,10 +12,21 @@ DBSession = sessionmaker(bind = engine)
 session = DBSession()
 
 
+
+
+
+# Item JSON Endpoint
+@app.route('/catalog/<int:category_id>/<int:item_id>/JSON')
+def itemJSON(category_id, item_id):
+    item = session.query(Item).filter_by(id=item_id).one()
+    return jsonify(item = item.serialize)
+
+
+# Catalog JSON Endpoint
 @app.route('/catalog/JSON')
 def catalogJSON():
     categories = session.query(Category).all()
-    return jsonify(categories=[r.serialize for r in categories])
+    return jsonify(categories=[c.serialize for c in categories])
 
 
 # Home / Show All Categories
