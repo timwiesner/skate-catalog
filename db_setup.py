@@ -31,7 +31,6 @@ class Category(Base):
         }
 
 
-
 class Item(Base):
     __tablename__ = 'item'
 
@@ -50,7 +49,6 @@ class Item(Base):
             'description': self.description,
             'category_id': self.category_id,
         }
-
 
 
 engine = create_engine('sqlite:///skatecatalog.db')
