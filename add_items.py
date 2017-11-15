@@ -10,7 +10,6 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 
-
 category1 = Category(name="Complete Skateboards")
 session.add(category1)
 session.commit()
