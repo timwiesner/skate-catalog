@@ -1,3 +1,3 @@
 *.pyc
-skatecatalog.db
+*.db
 client_secrets.json
