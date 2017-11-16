@@ -34,9 +34,11 @@ class Category(Base):
 class Item(Base):
     __tablename__ = 'item'
 
-    name = Column(String(80), nullable=False)
     id = Column(Integer, primary_key=True)
+    name = Column(String(80), nullable=False)
     description = Column(String(250))
+    picture = Column(String(250))
+    price = Column(String(6))
     category_id = Column(Integer, ForeignKey('category.id'))
     category = relationship(Category)
 
@@ -44,10 +46,11 @@ class Item(Base):
     def serialize(self):
         """Return object data in easily serializeable format"""
         return {
-            'name': self.name,
             'id': self.id,
+            'name': self.name,
             'description': self.description,
-            'category_id': self.category_id,
+            'picture': self.picture,
+            'price': self.price,
         }
 
 

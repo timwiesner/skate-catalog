@@ -15,7 +15,7 @@ session.add(category1)
 session.commit()
 
 category2 = Category(name="Skateboard Decks")
-session.add(category1)
+session.add(category2)
 session.commit()
 
 category3 = Category(name="Cruisers")
@@ -46,8 +46,6 @@ category9 = Category(name="Stickers")
 session.add(category9)
 session.commit()
 
-print('Items Added!')
-
 # category10 = Category(name="T-Shirts")
 # session.add(category10)
 # session.commit()
@@ -55,3 +53,12 @@ print('Items Added!')
 # category11 = Category(name="Shoes")
 # session.add(category11)
 # session.commit()
+
+# item1 = Item(name=)
+
+
+
+
+
+
+print('Items Added!')
