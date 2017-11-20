@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, jsonify, url_for
 from flask import flash, make_response, session as login_session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from db_setup import Base, Category, Item
+from db_setup import Base, Category, Item, User
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
 import random
@@ -109,6 +109,11 @@ def gconnect():
     login_session['username'] = data['name']
     login_session['picture'] = data['picture']
     login_session['email'] = data['email']
+
+    user_id = getUserID(login_session['email'])
+    if not user_id:
+        user_id = createUser(login_session)
+    login_session['user_id'] = user_id
 
     output = ''
     output += '<h1>Welcome, '
@@ -218,7 +223,7 @@ def newCategory():
     if 'username' not in login_session:
         return redirect('/login')
     if request.method == 'POST':
-        newCategory = Category(name=request.form['name'])
+        newCategory = Category(name=request.form['name'], user_id=login_session['user_id'])
         session.add(newCategory)
         session.commit()
         flash('New category created!')
@@ -282,7 +287,8 @@ def newItem(category_id):
     if request.method == 'POST':
         newItem = Item(name=request.form['name'],
                        description=request.form['description'],
-                       category_id=category_id)
+                       category_id=category_id,
+                       user_id=login_session['user_id'])
         session.add(newItem)
         session.commit()
         flash('New item created!')
