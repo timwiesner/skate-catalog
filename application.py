@@ -129,23 +129,23 @@ def gconnect():
 
 
 def createUser(login_session):
-    newUser = Users(name=login_session['username'],
+    newUser = User(name=login_session['username'],
                     email=login_session['email'],
                     picture=login_session['picture'])
     session.add(newUser)
     session.commit()
-    user = session.query(Users).filter_by(email=login_session['email']).one()
+    user = session.query(User).filter_by(email=login_session['email']).one()
     return user.id
 
 
 def getUserInfo(user_id):
-    user = session.query(Users).filter_by(id=user_id).one()
+    user = session.query(User).filter_by(id=user_id).first()
     return user
 
 
 def getUserID(email):
     try:
-        user = session.query(Users).filter_by(email=email).one()
+        user = session.query(User).filter_by(email=email).one()
         return user.id
     except:
         return None
@@ -214,7 +214,10 @@ def catalogJSON():
 @app.route('/categories/')
 def showCatalog():
     categories = session.query(Category).all()
-    return render_template('categories.html', categories=categories)
+    if 'username' not in login_session:
+        return render_template('publicCategories.html', categories=categories)
+    else:
+        return render_template('categories.html', categories=categories)
 
 
 # Create a new category
@@ -267,16 +270,23 @@ def deleteCategory(category_id):
 @app.route('/categories/<int:category_id>/items/')
 def showCategory(category_id):
     category = session.query(Category).filter_by(id=category_id).one()
+    creator = getUserInfo(category.user_id)
     items = session.query(Item).filter_by(category_id=category_id).all()
-    return render_template('category.html', items=items, category=category)
+    if 'username' not in login_session or creator.id != login_session['user_id']:
+        return render_template('publicCategory.html', items=items, category=category, creator=creator)
+    else:
+        return render_template('category.html', items=items, category=category, creator=creator)
 
 
 # Show specific item
 @app.route('/categories/<int:category_id>/items/<int:item_id>/')
 def showItem(category_id, item_id):
     category = session.query(Category).filter_by(id=category_id).one()
+    creator = getUserInfo(category.user_id)
     item = session.query(Item).filter_by(id=item_id).one()
-    return render_template('item.html', category=category, item=item)
+    if 'username' not in login_session or creator.id != login_session['user_id']:
+        return render_template('publicItem.html', category=category, item=item, creator=creator)
+    return render_template('item.html', category=category, item=item, creator=creator)
 
 
 # New item
